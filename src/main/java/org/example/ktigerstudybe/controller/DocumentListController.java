@@ -1,4 +1,5 @@
 package org.example.ktigerstudybe.controller;
 
-public class tst {
+public class DocumentListController {
+
 }
