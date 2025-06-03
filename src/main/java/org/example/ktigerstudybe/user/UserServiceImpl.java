@@ -1,11 +1,10 @@
-package org.example.ktigerstudybe.service.impl;
+package org.example.ktigerstudybe.user;
 
 import java.util.List;
 import java.util.Optional;
 
 import org.example.ktigerstudybe.model.User;
 import org.example.ktigerstudybe.repository.UserRepository;
-import org.example.ktigerstudybe.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

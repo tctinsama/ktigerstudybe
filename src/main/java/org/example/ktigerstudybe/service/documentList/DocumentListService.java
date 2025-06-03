@@ -1,4 +1,4 @@
-package org.example.ktigerstudybe.service;
+package org.example.ktigerstudybe.service.documentList;
 
 import org.example.ktigerstudybe.model.DocumentList;
 

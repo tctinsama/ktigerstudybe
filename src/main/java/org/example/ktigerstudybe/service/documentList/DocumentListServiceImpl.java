@@ -1,8 +1,7 @@
-package org.example.ktigerstudybe.service.impl;
+package org.example.ktigerstudybe.service.documentList;
 
 import org.example.ktigerstudybe.model.DocumentList;
 import org.example.ktigerstudybe.repository.DocumentListRepository;
-import org.example.ktigerstudybe.service.DocumentListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

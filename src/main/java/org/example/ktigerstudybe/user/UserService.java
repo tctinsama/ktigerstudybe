@@ -1,4 +1,4 @@
-package org.example.ktigerstudybe.service;
+package org.example.ktigerstudybe.user;
 
 import java.util.List;
 import java.util.Optional;
