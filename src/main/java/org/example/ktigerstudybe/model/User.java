@@ -2,6 +2,8 @@ package org.example.ktigerstudybe.model;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;
+
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,6 +13,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "user")
 public class User {
 
@@ -49,21 +52,5 @@ public class User {
     @Column(name = "UserName")
     private String userName;
 
-
-    // Constructor đầy đủ
-    public User(String fullName, String email, String password, String gender,
-                LocalDate dateOfBirth, String avatarImage, LocalDate joinDate,
-                String role, int userStatus, String userName) {
-        this.fullName = fullName;
-        this.email = email;
-        this.password = password;
-        this.gender = gender;
-        this.dateOfBirth = dateOfBirth;
-        this.avatarImage = avatarImage;
-        this.joinDate = joinDate;
-        this.role = role;
-        this.userStatus = userStatus;
-        this.userName = userName;
-    }
 
 }
