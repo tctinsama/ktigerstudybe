@@ -45,7 +45,7 @@ public class VocabularyTheoryController {
             @PathVariable Long id,
             @RequestBody VocabularyTheoryRequest request) {
         try {
-            VocabularyTheoryResponse updated = vocabularyTheoryService.updateVocabularyTheory(id, request);
+                VocabularyTheoryResponse updated = vocabularyTheoryService.updateVocabularyTheory(id, request);
             return ResponseEntity.ok(updated);
         } catch (Exception e) {
             return ResponseEntity.notFound().build();
