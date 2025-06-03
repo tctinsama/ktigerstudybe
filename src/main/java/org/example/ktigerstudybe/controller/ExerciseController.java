@@ -1,6 +1,7 @@
 package org.example.ktigerstudybe.controller;
 
-import org.example.ktigerstudybe.model.Exercise;
+import org.example.ktigerstudybe.dto.req.ExerciseRequest;
+import org.example.ktigerstudybe.dto.resp.ExerciseResponse;
 import org.example.ktigerstudybe.service.exercise.ExerciseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,28 +17,33 @@ public class ExerciseController {
     private ExerciseService exerciseService;
 
     @GetMapping
-    public List<Exercise> getAllExercises() {
+    public List<ExerciseResponse> getAllExercises() {
         return exerciseService.getAllExercises();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Exercise> getExerciseById(@PathVariable Long id) {
-        return exerciseService.getExerciseById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<ExerciseResponse> getExerciseById(@PathVariable Long id) {
+        try {
+            ExerciseResponse resp = exerciseService.getExerciseById(id);
+            return ResponseEntity.ok(resp);
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @PostMapping
-    public Exercise createExercise(@RequestBody Exercise exercise) {
-        return exerciseService.createExercise(exercise);
+    public ExerciseResponse createExercise(@RequestBody ExerciseRequest request) {
+        return exerciseService.createExercise(request);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Exercise> updateExercise(@PathVariable Long id, @RequestBody Exercise exercise) {
+    public ResponseEntity<ExerciseResponse> updateExercise(
+            @PathVariable Long id,
+            @RequestBody ExerciseRequest request) {
         try {
-            Exercise updated = exerciseService.updateExercise(id, exercise);
+            ExerciseResponse updated = exerciseService.updateExercise(id, request);
             return ResponseEntity.ok(updated);
-        } catch (RuntimeException e) {
+        } catch (Exception e) {
             return ResponseEntity.notFound().build();
         }
     }

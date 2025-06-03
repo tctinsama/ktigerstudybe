@@ -1,12 +1,16 @@
 package org.example.ktigerstudybe.service.exercise;
 
+import org.example.ktigerstudybe.dto.req.ExerciseRequest;
+import org.example.ktigerstudybe.dto.resp.ExerciseResponse;
 import org.example.ktigerstudybe.model.Exercise;
+import org.example.ktigerstudybe.model.Lesson;
 import org.example.ktigerstudybe.repository.ExerciseRepository;
+import org.example.ktigerstudybe.repository.LessonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ExerciseServiceImpl implements ExerciseService {
@@ -14,32 +18,65 @@ public class ExerciseServiceImpl implements ExerciseService {
     @Autowired
     private ExerciseRepository exerciseRepository;
 
-    @Override
-    public List<Exercise> getAllExercises() {
-        return exerciseRepository.findAll();
+    @Autowired
+    private LessonRepository lessonRepository;
+
+    // Mapping entity sang response DTO
+    private ExerciseResponse toResponse(Exercise entity) {
+        ExerciseResponse resp = new ExerciseResponse();
+        resp.setExerciseId(entity.getExerciseId());
+        resp.setLessonId(entity.getLesson().getLessonId());
+        resp.setExerciseTitle(entity.getExerciseTitle());
+        resp.setExerciseType(entity.getExerciseType());
+        resp.setExerciseDescription(entity.getExerciseDescription());
+        return resp;
+    }
+
+    // Mapping request DTO sang entity
+    private Exercise toEntity(ExerciseRequest req) {
+        Exercise entity = new Exercise();
+        Lesson lesson = lessonRepository.findById(req.getLessonId())
+                .orElseThrow(() -> new IllegalArgumentException("Lesson not found with id: " + req.getLessonId()));
+        entity.setLesson(lesson);
+        entity.setExerciseTitle(req.getExerciseTitle());
+        entity.setExerciseType(req.getExerciseType());
+        entity.setExerciseDescription(req.getExerciseDescription());
+        return entity;
     }
 
     @Override
-    public Optional<Exercise> getExerciseById(Long id) {
-        return exerciseRepository.findById(id);
+    public List<ExerciseResponse> getAllExercises() {
+        return exerciseRepository.findAll().stream()
+                .map(this::toResponse)
+                .collect(Collectors.toList());
     }
 
     @Override
-    public Exercise createExercise(Exercise exercise) {
-        return exerciseRepository.save(exercise);
+    public ExerciseResponse getExerciseById(Long id) {
+        Exercise entity = exerciseRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Exercise not found with id: " + id));
+        return toResponse(entity);
     }
 
     @Override
-    public Exercise updateExercise(Long id, Exercise exercise) {
-        return exerciseRepository.findById(id)
-                .map(existingExercise -> {
-                    existingExercise.setLesson(exercise.getLesson());
-                    existingExercise.setTitle(exercise.getTitle());
-                    existingExercise.setExerciseType(exercise.getExerciseType());
-                    existingExercise.setDescription(exercise.getDescription());
-                    return exerciseRepository.save(existingExercise);
-                })
-                .orElseThrow(() -> new RuntimeException("Exercise not found with id " + id));
+    public ExerciseResponse createExercise(ExerciseRequest request) {
+        Exercise entity = toEntity(request);
+        entity = exerciseRepository.save(entity);
+        return toResponse(entity);
+    }
+
+    @Override
+    public ExerciseResponse updateExercise(Long id, ExerciseRequest request) {
+        Exercise entity = exerciseRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Exercise not found with id: " + id));
+        Lesson lesson = lessonRepository.findById(request.getLessonId())
+                .orElseThrow(() -> new IllegalArgumentException("Lesson not found with id: " + request.getLessonId()));
+        entity.setLesson(lesson);
+        entity.setExerciseTitle(request.getExerciseTitle());
+        entity.setExerciseType(request.getExerciseType());
+        entity.setExerciseDescription(request.getExerciseDescription());
+        entity = exerciseRepository.save(entity);
+        return toResponse(entity);
     }
 
     @Override
@@ -47,4 +84,3 @@ public class ExerciseServiceImpl implements ExerciseService {
         exerciseRepository.deleteById(id);
     }
 }
-

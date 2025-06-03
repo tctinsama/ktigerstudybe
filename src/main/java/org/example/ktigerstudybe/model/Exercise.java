@@ -1,7 +1,11 @@
 package org.example.ktigerstudybe.model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "exercise")
 public class Exercise {
@@ -15,53 +19,14 @@ public class Exercise {
     @JoinColumn(name = "LessonID")
     private Lesson lesson;
 
-    @Column(name = "Title")
-    private String title;
+    @Column(name = "ExerciseTitle")
+    private String exerciseTitle;
 
     @Column(name = "ExerciseType")
     private String exerciseType;
 
-    @Column(name = "Description")
-    private String description;
+    @Column(name = "ExerciseDescription")
+    private String exerciseDescription;
 
-    public Long getExerciseId() {
-        return exerciseId;
-    }
-
-    public void setExerciseId(Long exerciseId) {
-        this.exerciseId = exerciseId;
-    }
-
-    public Lesson getLesson() {
-        return lesson;
-    }
-
-    public void setLesson(Lesson lesson) {
-        this.lesson = lesson;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getExerciseType() {
-        return exerciseType;
-    }
-
-    public void setExerciseType(String exerciseType) {
-        this.exerciseType = exerciseType;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
 }
 
