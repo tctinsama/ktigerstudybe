@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+import org.example.ktigerstudybe.model.DocumentItem;
 import java.time.LocalDateTime;
 
 @Getter
@@ -35,6 +37,8 @@ public class DocumentList {
 
     @Column(name = "IsPublic")
     private int isPublic;
+    @OneToMany(mappedBy = "documentList", cascade = CascadeType.ALL)
+    private List<DocumentItem> items;
 
 
 }
