@@ -52,4 +52,29 @@ public class UserController {
     userService.deleteUser(id);
     return ResponseEntity.noContent().build();
   }
+
+  @PostMapping("/{id}/freeze")
+  public ResponseEntity<UserResponse> freezeUser(@PathVariable Long id) {
+    try {
+      UserResponse resp = userService.freezeUser(id);
+      return ResponseEntity.ok(resp);
+    } catch (Exception e) {
+      return ResponseEntity.notFound().build();
+    }
+  }
+
+  @PostMapping("/{id}/unfreeze")
+  public ResponseEntity<UserResponse> unfreezeUser(@PathVariable Long id) {
+    try {
+      UserResponse resp = userService.unfreezeUser(id);
+      return ResponseEntity.ok(resp);
+    } catch (Exception e) {
+      return ResponseEntity.notFound().build();
+    }
+  }
+
+  @GetMapping("/search")
+  public List<UserResponse> searchUsers(@RequestParam String keyword) {
+    return userService.searchUsers(keyword);
+  }
 }

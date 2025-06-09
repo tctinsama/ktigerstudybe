@@ -6,9 +6,15 @@ import org.example.ktigerstudybe.dto.resp.UserResponse;
 import java.util.List;
 
 public interface UserService {
-	List<UserResponse> getAllUsers();
-	UserResponse getUserById(Long id);
-	UserResponse createUser(UserRequest request);
-	UserResponse updateUser(Long id, UserRequest request);
-	void deleteUser(Long id);
+        List<UserResponse> getAllUsers();
+        UserResponse getUserById(Long id);
+        UserResponse createUser(UserRequest request);
+        UserResponse updateUser(Long id, UserRequest request);
+        void deleteUser(Long id);
+
+        UserResponse freezeUser(Long id);
+
+        UserResponse unfreezeUser(Long id);
+
+        List<UserResponse> searchUsers(String keyword);
 }
