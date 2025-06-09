@@ -90,4 +90,32 @@ public class UserServiceImpl implements UserService {
   public void deleteUser(Long id) {
     userRepository.deleteById(id);
   }
+
+  @Override
+  public UserResponse freezeUser(Long id) {
+    User user = userRepository.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("User not found with id: " + id));
+    user.setUserStatus(1);
+    user = userRepository.save(user);
+    return toResponse(user);
+  }
+
+  @Override
+  public UserResponse unfreezeUser(Long id) {
+    User user = userRepository.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("User not found with id: " + id));
+    user.setUserStatus(0);
+    user = userRepository.save(user);
+    return toResponse(user);
+  }
+
+  @Override
+  public List<UserResponse> searchUsers(String keyword) {
+    return userRepository
+            .findByFullNameContainingIgnoreCaseOrEmailContainingIgnoreCaseOrUserNameContainingIgnoreCase(
+                    keyword, keyword, keyword)
+            .stream()
+            .map(this::toResponse)
+            .collect(Collectors.toList());
+  }
 }
